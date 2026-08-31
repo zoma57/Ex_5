@@ -1,19 +1,41 @@
 let registerForm = document.querySelector("#Register form"),
-    registerInputs = registerForm.querySelectorAll("input");
+    registerInputs = registerForm.querySelectorAll("input"),
+    students = [],
+    id = 0,
+    tableBody = document.querySelector("#Data tBody"),
+    regaxInputs = {
+    firstName: /^[A-Za-z]+$/,
+    lastName: /^[A-Za-z]+$/,
+    email: /^[A-Za-z][A-Za-z_0-9\.]+@(gmail|yahoo)\.(com|org)$/,
+    age: /^[0-9]{2}$/,
+    phone: /^(02)?01(0|1|2|5)[0-9]{8}$/,
+},
+searchInput = document.querySelector("#SearchInput");
+
+
+if (localStorage.getItem('students') === null) {
+    updateLocalStorage();
+} else {
+    students = JSON.parse(localStorage.getItem('students'));
+    id = students[students.length - 1]?.id ?? 0;
+    showStudents(students);
+}
 
 
 registerForm.addEventListener("submit", function(e) {
     e.preventDefault();
 
-    let student = {};
+    let formType = registerForm.getAttribute('data-type');
 
-    registerInputs.forEach(function(registerInput) {
-        let key = registerInput.name,
-        value = registerInput.value;
-        student[key] = value;
-    });
-
-    addStudent(student);
+    if (formType == 'add') {
+        addStudent();
+    } else if (formType == 'edit') {
+        editStudent();
+    }
 
 
+});
+
+searchInput.addEventListener("keyup", function () {
+    search(this.value);
 });
