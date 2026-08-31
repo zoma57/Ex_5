@@ -19,3 +19,11 @@ body {
 i {
     color: var(--main-color);
 }
+#Search .input-group {
+    width: 300px;
+    margin: auto;
+}
+table.table {
+    width: max-content;
+    min-width: 100%;
+}
